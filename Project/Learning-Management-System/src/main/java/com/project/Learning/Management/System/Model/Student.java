@@ -3,6 +3,7 @@ package com.project.Learning.Management.System.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Student {
     // Attributes
     private Node node; // Contains id, name, email, password, and role
@@ -11,7 +12,7 @@ public class Student {
     private List<Quiz> takenQuizzes = new ArrayList<>();
 
     // Constructor
-    public Student(String id, String name, String email, String password) {
+    public Student(String id, String name, String email, String password, String student) {
         this.node = new Node(id, name, email, password, "student");
     }
 
