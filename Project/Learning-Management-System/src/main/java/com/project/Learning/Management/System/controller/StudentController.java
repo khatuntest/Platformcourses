@@ -1,7 +1,8 @@
 package com.project.Learning.Management.System.controller;
 
-
+import com.project.Learning.Management.System.Model.Notification;
 import com.project.Learning.Management.System.service.Authentication;
+import com.project.Learning.Management.System.service.NotificationService;
 import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 // Controller Class for APIs
@@ -167,4 +169,37 @@ public class StudentController {
         // Placeholder for viewing grades
         return ResponseEntity.ok("Grades displayed successfully");
     }
+
+
+@RequestMapping("/api/notifications")
+class NotificationController {
+    private final NotificationService notificationService = new NotificationService();
+
+    // Add a new notification
+    @PostMapping
+    public String addNotification(@RequestBody Notification notification) {
+        notification.setId(UUID.randomUUID().toString()); // Generate unique ID
+        notificationService.addNotification(notification);
+        return "Notification added successfully!";
+    }
+
+    // Get unread notifications for a user
+    @GetMapping("/{userId}/unread")
+    public List<Notification> getUnreadNotifications(@PathVariable String userId) {
+        return notificationService.getUnreadNotifications(userId);
+    }
+
+    // Get all notifications for a user
+    @GetMapping("/{userId}/all")
+    public List<Notification> getAllNotifications(@PathVariable String userId) {
+        return notificationService.getAllNotifications(userId);
+    }
+
+    // Mark a notification as read
+    @PutMapping("/{notificationId}/read")
+    public String markAsRead(@PathVariable String notificationId) {
+        notificationService.markAsRead(notificationId);
+        return "Notification marked as read!";
+    }
+}
 }
