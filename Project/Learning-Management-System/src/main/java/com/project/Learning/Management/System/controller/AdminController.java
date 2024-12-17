@@ -1,0 +1,48 @@
+package com.project.Learning.Management.System.controller;
+
+
+import com.project.Learning.Management.System.Model.Courses;
+import com.project.Learning.Management.System.Model.User;
+import com.project.Learning.Management.System.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+
+    @Autowired
+    private final AdminService adminService = new AdminService();
+
+    // Create new user
+    @PostMapping("/createUser")
+    public String createUser(@RequestBody User user) {
+        boolean created = adminService.createUser(user);
+        if (created) {
+            return "User with role " + user.getRole() + " created successfully: " + user.getName();
+        }
+        return "Failed to create user: " + user.getName();
+    }
+
+    // Create new course
+    @PostMapping("/createCourse")
+    public String createCourse(@RequestBody Courses course) {
+        boolean created = adminService.createCourse(course);
+        if (created) {
+            return "Course created successfully: " + course.getTitle();
+        }
+        return "Failed to create course: " + course.getTitle();
+    }
+
+    // View all enrolled students in a course
+    @GetMapping("/course/{courseId}/students")
+    public Object viewEnrolledStudents(@PathVariable String courseId) {
+        return adminService.getEnrolledStudents(courseId);
+    }
+
+    // Generate a performance report
+    @GetMapping("/generateReport")
+    public String generatePerformanceReport() {
+        return adminService.generatePerformanceReport();
+    }
+}

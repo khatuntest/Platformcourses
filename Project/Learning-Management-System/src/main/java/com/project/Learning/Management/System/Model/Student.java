@@ -9,22 +9,18 @@ public class Student {
     private List<Courses> enrolledCourses = new ArrayList<>();
     private List<Assignment> submittedAssignments = new ArrayList<>();
     private List<Quiz> takenQuizzes = new ArrayList<>();
-
     // Constructor
     public Student(String id, String name, String email, String password) {
         this.node = new Node(id, name, email, password, "student");
     }
-
     // Enroll in a course
     public void enrollInCourse(Courses course) {
         enrolledCourses.add(course);
     }
-
     // Submit an assignment
     public void submitAssignment(Assignment assignment) {
         submittedAssignments.add(assignment);
     }
-
     // Take a quiz
     public void takeQuiz(Quiz quiz) {
         takenQuizzes.add(quiz);
