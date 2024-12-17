@@ -201,5 +201,16 @@ class NotificationController {
         notificationService.markAsRead(notificationId);
         return "Notification marked as read!";
     }
+    @GetMapping("/students/{studentId}/notifications")
+    public List<Notification> getStudentNotifications(@PathVariable String studentId) {
+        return notificationService.getAllNotifications(studentId);
+    }
+    @GetMapping("/instructors/{instructorId}/notifications")
+    public List<Notification> getInstructorNotifications(@PathVariable String instructorId) {
+        return notificationService.getAllNotifications(instructorId);
+    }
 }
+
+
+
 }
