@@ -1,52 +1,63 @@
 package com.project.Learning.Management.System.Model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
-    private Long id;
-    private String username;
-    private String password;
-    private String role;
+@Entity
+@Table(name = "Users")
+public abstract class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    private static List<Node> students = new ArrayList<>();
-    private static List<Node> admins = new ArrayList<>();
-    private static List<Node> instructors = new ArrayList<>();
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    // Constructor
-    public User(String id, String name, String email, String password, String role) {
-        Node node = new Node(id, name, email, password, role);
-        switch (role.toLowerCase()) {
-            case "student":
-                students.add(node);
-                break;
-            case "admin":
-                admins.add(node);
-                break;
-            case "instructor":
-                instructors.add(node);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid role: " + role);
-        }
+    @Column(name = "role")
+    private String role;
+
+    // One-to-many relationship with courses
+    @ManyToMany(mappedBy = "users")
+    private List<Courses> courses = new ArrayList<>();
+
+    public User(String name, String email, String password, String role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
+    public User() {}
 
-    // Getters and Setters
+    // Getters and setters
+
     public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
+        return (long) id;
+    }
+    public void setId(int id) {
         this.id = id;
     }
-
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -65,11 +76,11 @@ public class User {
         this.role = role;
     }
 
-    public String getEmail() {
-        return email;
+    public List<Courses> getCourses() {
+        return courses;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCourses(List<Courses> courses) {
+        this.courses = courses;
     }
 }

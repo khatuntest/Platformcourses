@@ -1,58 +1,86 @@
 package com.project.Learning.Management.System.Model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-
-public class Student {
-    // Attributes
-    private Node node; // Contains id, name, email, password, and role
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Student")
+public class Student extends User {
+    // Many-to-Many Relationship with Courses
+    @ManyToMany
+    @JoinTable(
+            name = "Student_Courses",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     private List<Courses> enrolledCourses = new ArrayList<>();
+
+    // Many-to-Many Relationship with Assignments
+    @ManyToMany
+    @JoinTable(
+            name = "Student_Assignments",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "assignment_id")
+    )
     private List<Assignment> submittedAssignments = new ArrayList<>();
+
+    // Many-to-Many Relationship with Quizzes
+    @ManyToMany
+    @JoinTable(
+            name = "Student_Quizzes",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "quiz_id")
+    )
     private List<Quiz> takenQuizzes = new ArrayList<>();
 
-    // Constructor
-    public Student(String id, String name, String email, String password, String student) {
-        this.node = new Node(id, name, email, password, "student");
+    // Constructor for creating a new student
+    public Student(String name, String email, String password) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setRole("student"); // Default role is "student"
     }
 
-    // Enroll in a course
+    // Methods to enroll, submit, and take actions
     public void enrollInCourse(Courses course) {
         enrolledCourses.add(course);
+        String message = "A new student (ID: " + studentId + ") has enrolled in the course: " + courseId;
+        Notification notification = new Notification(
+                UUID.randomUUID().toString(),
+                instructorId,
+                message
+        );
+        notificationService.addNotification(notification);
+
     }
 
-    // Submit an assignment
     public void submitAssignment(Assignment assignment) {
         submittedAssignments.add(assignment);
     }
 
-    // Take a quiz
     public void takeQuiz(Quiz quiz) {
         takenQuizzes.add(quiz);
     }
 
-    // Getters delegating to Node
-    public String getId() {
-        return node.getId();
-    }
-
-    public String getName() {
-        return node.getName();
-    }
-
-    public String getEmail() {
-        return node.getEmail();
-    }
-    // Getters for lists
+    // Utility methods for retrieving unmodifiable lists
     public List<Courses> getEnrolledCourses() {
-        return new ArrayList<>(enrolledCourses);
+        return List.copyOf(enrolledCourses);
     }
 
     public List<Assignment> getSubmittedAssignments() {
-        return new ArrayList<>(submittedAssignments);
+        return List.copyOf(submittedAssignments);
     }
 
     public List<Quiz> getTakenQuizzes() {
-        return new ArrayList<>(takenQuizzes);
+        return List.copyOf(takenQuizzes);
     }
 }

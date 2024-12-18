@@ -1,51 +1,107 @@
 package com.project.Learning.Management.System.Model;
 
-
+import jakarta.persistence.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+@Entity
 public class Instructor extends User {
-    private static Map<String, List<String>> courseContents = new HashMap<>();
-    private static Map<String, String> assignments = new HashMap<>();
-    private static Map<Long, Integer> studentGrades = new HashMap<>();
 
-    public Instructor(String id, String username, String email, String password) {
-        super(id, username, email, password, "Instructor");
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    // Foreign key to the Users table
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @Column(name = "department")
+    private String department;
+
+    @Column(name = "expertise")
+    private String expertise;
+
+    // One-to-many relationship with created courses
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
+    private List<Courses> createdCourses = new ArrayList<>();
+
+    // Constructor
+    public Instructor(String name, String email, String password, String department, String expertise) {
+        super(name, email, password, "instructor");
+        this.department = department;
+        this.expertise = expertise;
+    }
+
+    // Default constructor for JPA
+    public Instructor() {
+        super();
+    }
+
+    // Method to create a course
+    public Courses createCourse(String title, String description, String duration) {
+        Courses course = new Courses((long) (createdCourses.size() + 1), title, description, duration);
+        createdCourses.add(course);
+        return course;
     }
 
     // Add content to a course
-    public void addCourseContent(String courseId, String content) {
-        courseContents.putIfAbsent(courseId, new ArrayList<>());
-        courseContents.get(courseId).add(content);
-        System.out.println("Content added to course " + courseId + ": " + content);
+    public void addContentToCourse(Courses course, String mediaFile) {
+        course.addMediaFile(mediaFile);
     }
 
-    // Add an assignment
-    public void addAssignment(String courseId, String assignmentDetails) {
-        assignments.put(courseId, assignmentDetails);
-        System.out.println("Assignment added to course " + courseId + ": " + assignmentDetails);
+    // Add a lesson to a course
+    public void addLessonToCourse(Courses course, Lesson lesson) {
+        course.addLesson(lesson);
     }
 
-    // Grade a student
-    public void gradeStudent(Long studentId, int grade) {
-        studentGrades.put(studentId, grade);
-        System.out.println("Graded student " + studentId + " with grade: " + grade);
+    // Add an assignment to a course
+    public void addAssignmentToCourse(Courses course, Assignment assignment) {
+        course.getAssignments().add(assignment);
     }
 
-    // Get course contents
-    public List<String> getCourseContent(String courseId) {
-        return courseContents.getOrDefault(courseId, new ArrayList<>());
+    // Add a quiz to a course
+    public void addQuizToCourse(Courses course, Quiz quiz) {
+        course.getQuizzes().add(quiz);
     }
 
-    // Get assignments
-    public String getAssignment(String courseId) {
-        return assignments.get(courseId);
+    // Remove a student from a course
+    public void removeStudentFromCourse(Courses course, String studentId) {
+        course.getEnrolledStudents().remove(studentId);
     }
 
-    // Get student grades
-    public Integer getGrade(Long studentId) {
-        return studentGrades.get(studentId);
+    // Getters for instructor details
+    public Long getId() {
+        return super.getId();
+    }
+
+    public String getName() {
+        return super.getName();
+    }
+
+    public String getEmail() {
+        return super.getEmail();
+    }
+
+    public List<Courses> getCreatedCourses() {
+        return createdCourses;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getExpertise() {
+        return expertise;
+    }
+
+    // Setters
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setExpertise(String expertise) {
+        this.expertise = expertise;
     }
 }
