@@ -1,36 +1,42 @@
 package com.project.Learning.Management.System.service;
+
 import com.project.Learning.Management.System.Model.Notification;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
+@Service
 public class NotificationService {
-    private List<Notification> notifications = new ArrayList<>();
 
-    // Add a notification
-    public void addNotification(Notification notification) {
-        notifications.add(notification);
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    public Notification createNotification(String userId, String message) {
+        Notification notification = new Notification();
+        notification.setId(UUID.randomUUID().toString());
+        notification.setUserId(userId);
+        notification.setMessage(message);
+        notification.setRead(false);
+        notification.setNotificationDate(LocalDateTime.now());
+
+        return notificationRepository.save(notification);
     }
 
-    // Get unread notifications for a user
+    public List<Notification> getUserNotifications(String userId) {
+        return notificationRepository.findByUserId(userId);
+    }
+
     public List<Notification> getUnreadNotifications(String userId) {
-        return notifications.stream()
-                .filter(notification -> notification.getUserId().equals(userId) && !notification.isRead())
-                .collect(Collectors.toList());
+        return notificationRepository.findByUserIdAndIsRead(userId, false);
     }
 
-    // Get all notifications for a user
-    public List<Notification> getAllNotifications(String userId) {
-        return notifications.stream()
-                .filter(notification -> notification.getUserId().equals(userId))
-                .collect(Collectors.toList());
-    }
-
-    // Mark a notification as read
     public void markAsRead(String notificationId) {
-        notifications.stream()
-                .filter(notification -> notification.getId().equals(notificationId))
-                .forEach(notification -> notification.setRead(true));
+        notificationRepository.findById(Long.valueOf(notificationId)).ifPresent(notification -> {
+            notification.setRead(true);
+            notificationRepository.save(notification);
+        });
     }
 }
