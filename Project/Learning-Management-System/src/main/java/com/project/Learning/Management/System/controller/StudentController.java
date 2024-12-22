@@ -50,13 +50,7 @@ public class StudentController {
     class NotificationController {
         private final NotificationService notificationService = new NotificationService();
 
-        // Add a new notification
-        @PostMapping
-        public String addNotification(@RequestBody Notification notification) {
-            notification.setId(UUID.randomUUID().toString()); // Generate unique ID
-            notificationService.addNotification(notification);
-            return "Notification added successfully!";
-        }
+
 
         // Get unread notifications for a user
         @GetMapping("/{userId}/unread")
@@ -64,11 +58,7 @@ public class StudentController {
             return notificationService.getUnreadNotifications(userId);
         }
 
-        // Get all notifications for a user
-        @GetMapping("/{userId}/all")
-        public List<Notification> getAllNotifications(@PathVariable String userId) {
-            return notificationService.getAllNotifications(userId);
-        }
+
 
         // Mark a notification as read
         @PutMapping("/{notificationId}/read")
@@ -78,11 +68,11 @@ public class StudentController {
         }
         @GetMapping("/students/{studentId}/notifications")
         public List<Notification> getStudentNotifications(@PathVariable String studentId) {
-            return notificationService.getAllNotifications(studentId);
+            return notificationService.getUserNotifications(studentId);
         }
         @GetMapping("/instructors/{instructorId}/notifications")
         public List<Notification> getInstructorNotifications(@PathVariable String instructorId) {
-            return notificationService.getAllNotifications(instructorId);
+            return notificationService.getUserNotifications(instructorId);
         }
     }
 
