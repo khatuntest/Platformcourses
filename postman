@@ -150,3 +150,29 @@ http://localhost:8080/courses/101/lessons/1/verify-otp?otp=5658
 add new lesson 
 post 
 http://localhost:8080/courses/101/lessons?lessonName=maths
+
+//////////////////////////////////////////////////////////////////////
+Touka
+
+http://localhost:8080/admin/createUser
+
+{
+  "name": "Ahmed Doe",
+  "email": "ahmed.doe@example.com",
+  "password": "password123",
+  "role": "student"
+}
+------------------------------------------------
+http://localhost:8080/admin/createCourse
+
+{
+  "title": "Introduction to Java",
+  "description": "Learn the basics of Java programming",
+  "instructorId": 1
+}
+-------------------------------------------------------------------
+http://localhost:8080/admin/generateReport
+-------------------------------------------------------------------
+http://localhost:8080/admin/viewAllUsers
+--------------------------------------------------------------------
+http://localhost:8080/admin/course/{courseId}/students
