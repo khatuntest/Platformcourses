@@ -80,5 +80,48 @@ Get
 
 http://localhost:8080/api/assignments/12 
 
- 
-  
+/////////////////////////////////////////////////////////////////////
+menna 
+http://localhost:8080/students/1/enroll
+{
+    "id":101,
+    "title": "Mathematics",
+    "description":"An introductory course to mathematics.",
+    "duration": ""
+
+}
+------------------------------------------------
+http://localhost:8080/students/1/submitAssignment 
+{
+  "title": "Assignment 1",
+  "description": "Solve problems on arrays.",
+  "submissionLink": null,
+  "feedback": null,
+  "grade": null,
+  "courseId": 101
+}
+--------------------------------------------
+http://localhost:8080/students/1/takeQuiz
+{
+  "id": 1,
+  "title": "Quiz 1",
+  "description": "Basic math quiz",
+  "numberOfQuestions": 2,
+  "course": {
+    "id": 101,
+    "name": "Mathematics",
+    "description": "Mathematics basics",
+    "credits": 3
+  },
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "answer": "4"
+    },
+    {
+      "question": "What is the square root of 9?",
+      "answer": "3"
+    }
+  ]
+}
+////////////////////////////////////////////////////////
