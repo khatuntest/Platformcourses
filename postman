@@ -177,3 +177,40 @@ http://localhost:8080/admin/generateReport
 http://localhost:8080/admin/viewAllUsers
 --------------------------------------------------------------------
 http://localhost:8080/admin/course/{courseId}/students
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+خلي عندك Instructor Id=2 
+Nada 
+
+POST
+http://localhost:8080/instructor/2/createCourse
+
+{
+  "title": "Java Programming",
+  "description": "An in-depth course on Java development.",
+  "duration": 30
+}
+-----------------------------------------------------------------
+خلي عندك Instructor Id=2 
+POST
+http://localhost:8080/instructor/2/addContent?mediaFile=video.mp4
+
+{
+  "title": "Introduction to Java",
+  "description": "Learn the basics of Java programming",
+  "instructorId": 1
+}
+----------------------------------------------------------------
+خلي عندك Student Id=2 
+DELETE
+http://localhost:8080/instructor/2/removeStudent?studentId=2
+
+{
+  "title": "Introduction to Java",
+  "description": "Learn the basics of Java programming",
+  "instructorId": 1
+}
+
+
