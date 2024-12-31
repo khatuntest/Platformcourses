@@ -157,10 +157,11 @@ Touka
 http://localhost:8080/admin/createUser
 
 {
-  "name": "Ahmed Doe",
-  "email": "ahmed.doe@example.com",
+  "id": 22,
+  "name": "Aymannnnn Doe",
+  "email": "ayman.doe@example.com",
   "password": "password123",
-  "role": "student"
+  "role": "STUDENT"
 }
 ------------------------------------------------
 http://localhost:8080/admin/createCourse
