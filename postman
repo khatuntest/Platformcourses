@@ -1,0 +1,84 @@
+Qiuz 
+
+{ 
+
+    "title": "Java Basics Quiz", 
+
+    "description": "Test your knowledge of Java basics", 
+
+    "questions": [ 
+
+        { 
+
+            "questionText": "What is Java?", 
+
+            "questionType": "MCQ", 
+
+            "options": ["A programming language", "A type of coffee", "A database"], 
+
+            "correctAnswer": "A programming language" 
+
+        }, 
+
+        { 
+
+            "questionText": "What is a class in Java?", 
+
+            "questionType": "MCQ", 
+
+            "options": ["A type of Java method", "A blueprint for objects"], 
+
+            "correctAnswer": "A blueprint for objects" 
+
+        } 
+
+    ] 
+
+} 
+
+http://localhost:8080/api/quizzes 
+
+Assignment 
+
+{ 
+
+    "title": "Assignment 1", 
+
+    "description": "Description of Assignment 1", 
+
+    "submissionLink": "http://example.com/assignment1", 
+
+    "feedback": null, 
+
+    "grade": null, 
+
+    "course": { 
+
+        "id": 1 
+
+    } 
+
+} 
+
+ 
+
+http://localhost:8080/api/assignments/submit 
+
+{ 
+
+    "grade": 90.0, 
+
+    "feedback": "Well done!" 
+
+} 
+
+put 
+
+http://localhost:8080/api/assignments/{id}/grade 
+
+Get 
+
+http://localhost:8080/api/assignments/12 
+
+ 
+  
