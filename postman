@@ -125,3 +125,28 @@ http://localhost:8080/students/1/takeQuiz
   ]
 }
 ////////////////////////////////////////////////////////
+add new course
+post 
+http://localhost:8080/courses
+{
+  "title": " arabic Basics",
+  "description": "An introductory course on arabic ",
+  "duration": "10 hours"
+}
+
+get all courses 
+get 
+http://localhost:8080/courses
+
+uppload media for a course 
+post 
+http://localhost:8080/courses/1/upload 
+// choose in Body form data and upload a file 
+
+Verify OTP for a Lesson
+post 
+http://localhost:8080/courses/101/lessons/1/verify-otp?otp=5658
+
+add new lesson 
+post 
+http://localhost:8080/courses/101/lessons?lessonName=maths
